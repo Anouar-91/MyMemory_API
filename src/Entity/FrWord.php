@@ -76,7 +76,6 @@ class FrWord
 
     public function __construct()
     {
-        $this->EnWords = new ArrayCollection();
         $this->nbError = 0;
         $this->createdAt = new \DateTime();
         $this->enWords = new ArrayCollection();
