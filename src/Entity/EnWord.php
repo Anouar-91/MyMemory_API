@@ -7,9 +7,20 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EnWordRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ * normalizationContext={
+ *      "groups"={"enWord_read"}
+ * },
+ *      subresourceOperations={
+ *          "frWords_get_subresource"={"path"="/en_words/{id}/fr_words"}
+ *      },
+ * )
  * @ORM\Entity(repositoryClass=EnWordRepository::class)
  */
 class EnWord
@@ -18,33 +29,48 @@ class EnWord
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"enWord_read", "frWord_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Content is required !")
+     * @Groups({"enWord_read", "frWord_read"})
+
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"enWord_read", "frWord_read"})
+
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"enWord_read", "frWord_read"})
+
      */
     private $updatedAt;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=FrWord::class, mappedBy="EnWords")
-     */
-    private $frWords;
+
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"enWord_read", "frWord_read"})
+
      */
     private $nbError;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=FrWord::class, mappedBy="enWords")
+     * @Groups({"enWord_read"})
+     * @ApiSubresource
+
+     */
+    private $frWords;
 
     public function __construct()
     {
@@ -94,6 +120,19 @@ class EnWord
         return $this;
     }
 
+
+    public function getNbError(): ?int
+    {
+        return $this->nbError;
+    }
+
+    public function setNbError(int $nbError): self
+    {
+        $this->nbError = $nbError;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, FrWord>
      */
@@ -117,18 +156,6 @@ class EnWord
         if ($this->frWords->removeElement($frWord)) {
             $frWord->removeEnWord($this);
         }
-
-        return $this;
-    }
-
-    public function getNbError(): ?int
-    {
-        return $this->nbError;
-    }
-
-    public function setNbError(int $nbError): self
-    {
-        $this->nbError = $nbError;
 
         return $this;
     }
