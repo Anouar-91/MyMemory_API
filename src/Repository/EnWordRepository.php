@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\EnToFr;
+use App\Entity\EnWord;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<EnToFr>
+ * @extends ServiceEntityRepository<EnWord>
  *
- * @method EnToFr|null find($id, $lockMode = null, $lockVersion = null)
- * @method EnToFr|null findOneBy(array $criteria, array $orderBy = null)
- * @method EnToFr[]    findAll()
- * @method EnToFr[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EnWord|null find($id, $lockMode = null, $lockVersion = null)
+ * @method EnWord|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EnWord[]    findAll()
+ * @method EnWord[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EnToFrRepository extends ServiceEntityRepository
+class EnWordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EnToFr::class);
+        parent::__construct($registry, EnWord::class);
     }
 
-    public function add(EnToFr $entity, bool $flush = false): void
+    public function add(EnWord $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class EnToFrRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(EnToFr $entity, bool $flush = false): void
+    public function remove(EnWord $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class EnToFrRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return EnToFr[] Returns an array of EnToFr objects
+//     * @return EnWord[] Returns an array of EnWord objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class EnToFrRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?EnToFr
+//    public function findOneBySomeField($value): ?EnWord
 //    {
 //        return $this->createQueryBuilder('e')
 //            ->andWhere('e.exampleField = :val')
