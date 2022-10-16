@@ -7,10 +7,15 @@ use App\Repository\UserRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
 
 /**
  * @ApiResource
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email", message="An User with this email already exist")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,6 +28,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Email is required !")
+     * @Assert\Email(message="Email format not valid !")
      */
     private $email;
 
@@ -34,6 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Password is required !")
      */
     private $password;
 

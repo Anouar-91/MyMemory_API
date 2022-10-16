@@ -20,6 +20,10 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *      subresourceOperations={
  *          "frWords_get_subresource"={"path"="/en_words/{id}/fr_words"}
  *      },
+ *     collectionOperations={
+ *          "POST",
+ *          "GET",
+ *      },
  * )
  * @ORM\Entity(repositoryClass=EnWordRepository::class)
  */
@@ -71,6 +75,7 @@ class EnWord
 
      */
     private $frWords;
+
 
     public function __construct()
     {
