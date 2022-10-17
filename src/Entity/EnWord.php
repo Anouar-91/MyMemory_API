@@ -17,9 +17,6 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  * normalizationContext={
  *      "groups"={"enWord_read"}
  * },
- *      subresourceOperations={
- *          "frWords_get_subresource"={"path"="/en_words/{id}/fr_words"}
- *      },
  *     collectionOperations={
  *          "POST",
  *          "GET",
@@ -69,12 +66,15 @@ class EnWord
     private $nbError;
 
     /**
-     * @ORM\ManyToMany(targetEntity=FrWord::class, mappedBy="enWords")
+     * @ORM\OneToMany(targetEntity=FrWord::class, mappedBy="enWord")
      * @Groups({"enWord_read"})
-     * @ApiSubresource
-
      */
     private $frWords;
+
+
+    
+
+  
 
 
     public function __construct()
@@ -150,7 +150,7 @@ class EnWord
     {
         if (!$this->frWords->contains($frWord)) {
             $this->frWords[] = $frWord;
-            $frWord->addEnWord($this);
+            $frWord->setEnWord($this);
         }
 
         return $this;
@@ -159,9 +159,14 @@ class EnWord
     public function removeFrWord(FrWord $frWord): self
     {
         if ($this->frWords->removeElement($frWord)) {
-            $frWord->removeEnWord($this);
+            // set the owning side to null (unless already changed)
+            if ($frWord->getEnWord() === $this) {
+                $frWord->setEnWord(null);
+            }
         }
 
         return $this;
     }
+
+
 }

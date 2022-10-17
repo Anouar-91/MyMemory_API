@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20221016174617 extends AbstractMigration
+{
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE fr_word_en_word DROP FOREIGN KEY FK_CDA196C7131B8A8B');
+        $this->addSql('ALTER TABLE fr_word_en_word DROP FOREIGN KEY FK_CDA196C7B2D880ED');
+        $this->addSql('DROP TABLE fr_word_en_word');
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE fr_word_en_word (fr_word_id INT NOT NULL, en_word_id INT NOT NULL, INDEX IDX_CDA196C7B2D880ED (en_word_id), INDEX IDX_CDA196C7131B8A8B (fr_word_id), PRIMARY KEY(fr_word_id, en_word_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
+        $this->addSql('ALTER TABLE fr_word_en_word ADD CONSTRAINT FK_CDA196C7131B8A8B FOREIGN KEY (fr_word_id) REFERENCES fr_word (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE fr_word_en_word ADD CONSTRAINT FK_CDA196C7B2D880ED FOREIGN KEY (en_word_id) REFERENCES en_word (id) ON DELETE CASCADE');
+    }
+}

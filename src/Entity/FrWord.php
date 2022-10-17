@@ -12,13 +12,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- * subresourceOperations={
- *  "api_en_words_fr_words_get_subresource"={
- *      "normalization_context"={
- *          "groups"={"fr_words_subresource"}
- *      }
- *  }
- * },
  * normalizationContext={
  *      "groups"={"frWord_read"}
  * },
@@ -31,7 +24,7 @@ class FrWord
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"fr_words_subresource","enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read"})
 
      */
     private $id;
@@ -39,21 +32,21 @@ class FrWord
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups({"fr_words_subresource","enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read"})
 
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"fr_words_subresource","enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read"})
 
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"fr_words_subresource","enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read"})
 
      */
     private $updatedAt;
@@ -62,17 +55,17 @@ class FrWord
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"fr_words_subresource","enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read"})
 
      */
     private $nbError;
 
     /**
-     * @ORM\ManyToMany(targetEntity=EnWord::class, inversedBy="frWords")
+     * @ORM\ManyToOne(targetEntity=EnWord::class, inversedBy="frWords")
      * @Groups({"frWord_read"})
-
      */
-    private $enWords;
+    private $enWord;
+
 
     public function __construct()
     {
@@ -136,26 +129,14 @@ class FrWord
         return $this;
     }
 
-    /**
-     * @return Collection<int, EnWord>
-     */
-    public function getEnWords(): Collection
+    public function getEnWord(): ?EnWord
     {
-        return $this->enWords;
+        return $this->enWord;
     }
 
-    public function addEnWord(EnWord $enWord): self
+    public function setEnWord(?EnWord $enWord): self
     {
-        if (!$this->enWords->contains($enWord)) {
-            $this->enWords[] = $enWord;
-        }
-
-        return $this;
-    }
-
-    public function removeEnWord(EnWord $enWord): self
-    {
-        $this->enWords->removeElement($enWord);
+        $this->enWord = $enWord;
 
         return $this;
     }
