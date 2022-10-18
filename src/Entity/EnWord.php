@@ -21,6 +21,16 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
  *          "POST",
  *          "GET",
  *      },
+ * itemOperations={
+ *      "GET",
+ *      "PUT",
+ *      "DELETE",
+ *      "INCREMENT"={
+ *          "method"="POST",
+ *          "path"="/en_words/{id}/increment",
+ *          "controller"="App\Controller\IncrementErrorEnWordController"
+ *      }
+ * },
  * )
  * @ORM\Entity(repositoryClass=EnWordRepository::class)
  */
@@ -71,6 +81,12 @@ class EnWord
      */
     private $frWords;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"enWord_read", "frWord_read"})
+     */
+    private $nbSuccess;
+
 
     
 
@@ -81,6 +97,7 @@ class EnWord
     {
         $this->frWords = new ArrayCollection();
         $this->nbError = 0;
+        $this->nbSuccess = 0;
         $this->createdAt = new \DateTime();
     }
 
@@ -164,6 +181,18 @@ class EnWord
                 $frWord->setEnWord(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbSuccess(): ?int
+    {
+        return $this->nbSuccess;
+    }
+
+    public function setNbSuccess(int $nbSuccess): self
+    {
+        $this->nbSuccess = $nbSuccess;
 
         return $this;
     }
