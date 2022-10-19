@@ -14,6 +14,7 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 
 /**
  * @ApiResource(
+ * attributes={"pagination_enabled"=false},
  * normalizationContext={
  *      "groups"={"enWord_read"}
  * },
