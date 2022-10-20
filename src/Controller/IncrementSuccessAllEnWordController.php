@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class IncrementErrorAllEnWord extends AbstractController
+class IncrementSuccessAllEnWordController extends AbstractController
 {
     private $manager;
     private $enRepository;
@@ -30,7 +30,7 @@ class IncrementErrorAllEnWord extends AbstractController
     $enWordTab = [];
     foreach($data->enWords as $id){
         $enWord = $this->enRepository->find($id);
-        $enWord->setNbError($enWord->getNbError() + 1);
+        $enWord->setNbSuccess($enWord->getNbSuccess() + 1);
         array_push($enWordTab, $enWord);
         $this->manager->persist($enWord);
     }

@@ -12,13 +12,13 @@ use App\Repository\IncrementErrorServiceRepository;
 *          "ERROR"={
 *          "method"="POST",
 *          "path"="/en_words_increment/error",
-*          "controller"="App\Controller\IncrementErrorAllEnWord",
+*          "controller"="App\Controller\IncrementErrorAllEnWordController",
 *           "status"=200
 *      },
 *          "SUCCESS"={
 *          "method"="POST",
 *          "path"="/en_words_increment/success",
-*          "controller"="App\Controller\IncrementSuccessAllEnWord",
+*          "controller"="App\Controller\IncrementSuccessAllEnWordController",
 *           "status"=200
 *      },
 *      },
