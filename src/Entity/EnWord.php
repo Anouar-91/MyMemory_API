@@ -88,6 +88,11 @@ class EnWord
      */
     private $nbSuccess;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="enWords")
+     */
+    private $user;
+
 
     
 
@@ -194,6 +199,18 @@ class EnWord
     public function setNbSuccess(int $nbSuccess): self
     {
         $this->nbSuccess = $nbSuccess;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

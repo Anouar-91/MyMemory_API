@@ -27,7 +27,7 @@ class AddEnWordController extends AbstractController
     public function __invoke(AddEnFrService $data): EnWord
  {
 
-        $isExist = $this->enRepository->findOneBy(['content' => $data->enWord]);
+        $isExist = $this->enRepository->findOneBy(['content' => $data->enWord, 'user' => $this->getUser()]);
         
         if($isExist){
             throw new WordAlreadyExistException("This word already exist !");
@@ -39,6 +39,7 @@ class AddEnWordController extends AbstractController
             $this->manager->persist($frWord);
             $enWord->setContent($data->enWord);
             $enWord->addFrWord($frWord);
+            $enWord->setUser($this->getUser());
             $this->manager->persist($enWord);
             $this->manager->flush();
             return $enWord;
