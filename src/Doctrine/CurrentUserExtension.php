@@ -27,7 +27,8 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
              $rootAlias = $queryBuilder->getRootAlias()[0];
  
              if($resourceClass === EnWord::class){
-                 $queryBuilder->andWhere("$rootAlias.user = :user");
+                 $queryBuilder->andWhere("$rootAlias.user = :user")
+                             ->orderBy("$rootAlias.createdAt", "DESC");
              }
              else if($resourceClass === FrWord::class){
                  $queryBuilder->join("$rootAlias.enWord", "e")
