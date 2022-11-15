@@ -44,21 +44,21 @@ class EnWord
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read", "news_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Content is required !")
-     * @Groups({"enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read", "news_read"})
 
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read", "news_read"})
 
      */
     private $createdAt;
@@ -81,7 +81,7 @@ class EnWord
 
     /**
      * @ORM\OneToMany(targetEntity=FrWord::class, mappedBy="enWord")
-     * @Groups({"enWord_read"})
+     * @Groups({"enWord_read", "news_read"})
      */
     private $frWords;
 
@@ -96,6 +96,11 @@ class EnWord
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=News::class, mappedBy="enWord")
+     */
+    private $news;
+
 
     
 
@@ -108,6 +113,7 @@ class EnWord
         $this->nbError = 0;
         $this->nbSuccess = 0;
         $this->createdAt = new \DateTime();
+        $this->news = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,6 +220,36 @@ class EnWord
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, News>
+     */
+    public function getNews(): Collection
+    {
+        return $this->news;
+    }
+
+    public function addNews(News $news): self
+    {
+        if (!$this->news->contains($news)) {
+            $this->news[] = $news;
+            $news->setEnWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNews(News $news): self
+    {
+        if ($this->news->removeElement($news)) {
+            // set the owning side to null (unless already changed)
+            if ($news->getEnWord() === $this) {
+                $news->setEnWord(null);
+            }
+        }
 
         return $this;
     }

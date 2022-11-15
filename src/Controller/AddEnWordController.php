@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\News;
 use App\Entity\EnWord;
 use App\Entity\FrWord;
 use App\Entity\AddEnFrService;
 use App\Repository\EnWordRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Exceptions\WordAlreadyExistException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Exceptions\WordAlreadyExistException;
 
 class AddEnWordController extends AbstractController
 {
@@ -33,6 +34,7 @@ class AddEnWordController extends AbstractController
             throw new WordAlreadyExistException("This word already exist !");
         }
         else{
+          
             $enWord = new EnWord();
             $frWord = new FrWord();
             $frWord->setContent($data->frWord);
@@ -41,6 +43,14 @@ class AddEnWordController extends AbstractController
             $enWord->addFrWord($frWord);
             $enWord->setUser($this->getUser());
             $this->manager->persist($enWord);
+            if($data->isShare === true){
+                $new = new News();
+                $new->setEnWord($enWord);
+                $new->setUser($this->getUser());
+                $this->manager->persist($new);
+            }
+
+            
             $this->manager->flush();
             return $enWord;
         }

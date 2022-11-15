@@ -58,11 +58,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups({"news_read"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"news_read"})
      */
     private $firstname;
 
@@ -71,9 +74,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $enWords;
 
+    /**
+     * @ORM\OneToMany(targetEntity=News::class, mappedBy="user")
+     */
+    private $news;
+
     public function __construct()
     {
         $this->enWords = new ArrayCollection();
+        $this->news = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +222,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($enWord->getUser() === $this) {
                 $enWord->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, News>
+     */
+    public function getNews(): Collection
+    {
+        return $this->news;
+    }
+
+    public function addNews(News $news): self
+    {
+        if (!$this->news->contains($news)) {
+            $this->news[] = $news;
+            $news->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNews(News $news): self
+    {
+        if ($this->news->removeElement($news)) {
+            // set the owning side to null (unless already changed)
+            if ($news->getUser() === $this) {
+                $news->setUser(null);
             }
         }
 

@@ -32,7 +32,7 @@ class FrWord
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups({"enWord_read", "frWord_read"})
+     * @Groups({"enWord_read", "frWord_read", "news_read"})
 
      */
     private $content;

@@ -35,15 +35,11 @@ class AddEnFrService
 
     /**
      * @Assert\NotBlank(message="enWord is required !")
-
      */
     public $enWord;
 
-
-    
-
-  
-
-
-
+    /**
+     * @Assert\Type(type={"bool"})     
+     */
+    public $isShare;
 }
