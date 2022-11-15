@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Entity\User;
 use App\Entity\EnWord;
+use App\Repository\NewsRepository;
 use App\Repository\FrWordRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -16,9 +17,11 @@ class DeleteEnWordSubscriber implements EventSubscriberInterface{
     
     protected $frRepository;
     protected $manager;
-    public function __construct( FrWordRepository $frRepository, EntityManagerInterface $entityManager){
+    protected $newsRepository;
+    public function __construct( FrWordRepository $frRepository, EntityManagerInterface $entityManager, NewsRepository $newsRepository){
         $this->manager = $entityManager;
         $this->frRepository = $frRepository;
+        $this->newsRepository = $newsRepository;
     }
     public static function getSubscribedEvents(){
         //on se retrouve au moment ou API PLAFORM a fini de désérialiser le JSON et il s'apprête à l'envoyer à la base de données
@@ -34,11 +37,12 @@ class DeleteEnWordSubscriber implements EventSubscriberInterface{
      
         if($result instanceof EnWord && $method === "DELETE"){
             $frWords = $this->frRepository->findBy(["enWord" => $result]);
-            
+            $news = $this->newsRepository->findOneBy(["enWord" => $result]);
+            $this->manager->remove($news);
             foreach($frWords as $frWord){
                 $this->manager->remove($frWord);
-      
             }
+
             $this->manager->flush();
 /*             $hash = $this->encoder->hashPassword($result, $result->getPassword());
             $result->setPassword($hash); */
