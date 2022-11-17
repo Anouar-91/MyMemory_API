@@ -38,7 +38,9 @@ class DeleteEnWordSubscriber implements EventSubscriberInterface{
         if($result instanceof EnWord && $method === "DELETE"){
             $frWords = $this->frRepository->findBy(["enWord" => $result]);
             $news = $this->newsRepository->findOneBy(["enWord" => $result]);
-            $this->manager->remove($news);
+            if($news){
+                $this->manager->remove($news);
+            }
             foreach($frWords as $frWord){
                 $this->manager->remove($frWord);
             }
