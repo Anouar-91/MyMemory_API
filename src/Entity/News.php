@@ -5,18 +5,30 @@ namespace App\Entity;
 use App\Repository\NewsRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * 
  * @ApiResource(
- * 
+ * attributes={"pagination_client_enabled"=true},
  * normalizationContext={
  *      "groups"={"news_read"}
  * },
  *     collectionOperations={
  *          "GET",
+ *          "GetSlice"={
+ *          "method"="GET",
+ *          "path"="/news/slice",
+ *          "controller"="App\Controller\GetNewsController"
+ *      },
+ *          "GetLength"={
+ *          "method"="GET",
+ *          "path"="/news/length",
+ *          "controller"="App\Controller\GetLengthController"
+ *      },
  *      },
  *     itemOperations={
  *         "GET"={
@@ -27,6 +39,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         },
  *     },
  * )
+ * @ApiFilter(OrderFilter::class, properties={"createdAt": "DESC" })
  * @ORM\Entity(repositoryClass=NewsRepository::class)
  */
 class News

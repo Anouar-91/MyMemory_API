@@ -5,6 +5,9 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    collection:
+        pagination:
+            client_enabled: true
     exception_to_status:
         App\Exceptions\WordAlreadyExistException: 422 # Here is the handler for our custom exception
 
