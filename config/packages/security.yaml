@@ -42,6 +42,7 @@ security:
         - { path: '^/api/users', roles: IS_AUTHENTICATED_FULLY, methods: [GET, PUT, DELETE] }
         - { path: ^/api/en_words,       roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/fr_words,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/en_fr_words/add,       roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/news,       roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
 

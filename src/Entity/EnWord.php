@@ -23,7 +23,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *     collectionOperations={
  *          "POST",
  *          "GET",
- *      },
+ *          "lowSuccess"={
+ *          "method"="GET",
+ *          "path"="/en_words/low-success",
+ *          "controller"="App\Controller\LowSuccessController"
+ *      }},
  * itemOperations={
  *      "GET",
  *      "PUT",
