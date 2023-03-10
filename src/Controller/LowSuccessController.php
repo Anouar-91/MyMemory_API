@@ -24,7 +24,7 @@ class LowSuccessController extends AbstractController
     {   
         
         $limit = $request->get('limit') ? $request->get('limit') : null ;
-        $enWords = $this->enWordRepository->findBy([], ["nbSuccess" => "ASC"], $limit);
+        $enWords = $this->enWordRepository->findBy(["user" => $this->getUser()], ["nbSuccess" => "ASC"], $limit);
 
         return $enWords;
     }
