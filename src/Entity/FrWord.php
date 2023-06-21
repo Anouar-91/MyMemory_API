@@ -66,6 +66,12 @@ class FrWord
      */
     private $enWord;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"enWord_read", "frWord_read", "news_read"})
+     */
+    private $description;
+
 
     public function __construct()
     {
@@ -137,6 +143,18 @@ class FrWord
     public function setEnWord(?EnWord $enWord): self
     {
         $this->enWord = $enWord;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

@@ -38,19 +38,24 @@ class AddEnWordController extends AbstractController
             $enWord = new EnWord();
             $frWord = new FrWord();
             $frWord->setContent($data->frWord);
-            $this->manager->persist($frWord);
             $enWord->setContent($data->enWord);
             $enWord->addFrWord($frWord);
             $enWord->setUser($this->getUser());
-            $this->manager->persist($enWord);
             if($data->isShare === true){
                 $new = new News();
                 $new->setEnWord($enWord);
                 $new->setUser($this->getUser());
                 $this->manager->persist($new);
             }
+            if($data->frDescription and trim($data->frDescription) != ""){
+                $frWord->setDescription($data->frDescription);
+            }
+            if($data->enDescription and trim($data->enDescription) != ""){
+                $enWord->setDescription($data->enDescription);
+            }
+            $this->manager->persist($frWord);
+            $this->manager->persist($enWord);
 
-            
             $this->manager->flush();
             return $enWord;
         }

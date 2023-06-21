@@ -42,4 +42,8 @@ class AddEnFrService
      * @Assert\Type(type={"bool"})     
      */
     public $isShare;
+
+    public $frDescription;
+
+    public $enDescription;
 }

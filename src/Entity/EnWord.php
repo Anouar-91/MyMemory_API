@@ -30,7 +30,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *      }},
  * itemOperations={
  *      "GET",
- *      "PUT",
+ *      "PATCH",
  *      "DELETE",
  *      "INCREMENT"={
  *          "method"="POST",
@@ -104,6 +104,13 @@ class EnWord
      * @ORM\OneToMany(targetEntity=News::class, mappedBy="enWord")
      */
     private $news;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"enWord_read", "frWord_read", "news_read"})
+
+     */
+    private $description;
 
 
     
@@ -254,6 +261,18 @@ class EnWord
                 $news->setEnWord(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
